@@ -1,201 +1,342 @@
-import { Activity, Pill, FlaskConical, ScanLine, FileText, Users, Sparkles, TrendingUp, Hospital, LogOut, User } from 'lucide-react';
+import React from 'react';
+import { 
+  LogOut, 
+  Hospital, 
+  Pill, 
+  TestTube, 
+  FileText, 
+  Users, 
+  ShieldCheck,
+  CircleAlert,
+  Utensils,
+  Settings,
+  User
+} from 'lucide-react';
 
 interface DashboardProps {
   username: string;
   onLogout: () => void;
 }
 
-export default function Dashboard({ username, onLogout }: DashboardProps) {
-  const role = username.toLowerCase().includes('dr') ? 'Dokter' : username.toLowerCase().includes('nurse') ? 'Perawat' : 'Administrator';
+interface Application {
+  id: string;
+  name: string;
+  description: string;
+  icon: React.ElementType;
+  status: 'Siapro' | 'Beta' | 'Ready';
+  url: string;
+  gradient: string;
+  access?: string;
+  owner?: string;
+  notifications: number;
+}
 
-  const apps = [
-    { icon: Activity, name: 'SIMRS', desc: 'Sistem Informasi Manajemen Rumah Sakit', notif: 5, color: '#10B981' },
-    { icon: Pill, name: 'Farmasi', desc: 'Sistem Manajemen Farmasi dan Obat-obatan', notif: 12, color: '#14B8A6' },
-    { icon: FlaskConical, name: 'Laboratorium', desc: 'Sistem Informasi Laboratorium Klinik', notif: 8, color: '#06B6D4' },
-    { icon: ScanLine, name: 'Radiologi', desc: 'Sistem Informasi Radiologi dan Pencitraan', notif: 3, color: '#0EA5E9' },
-    { icon: FileText, name: 'Rekam Medis', desc: 'Sistem Rekam Medis Elektronik Pasien', notif: 0, color: '#8B5CF6' },
-    { icon: Users, name: 'Antrian', desc: 'Sistem Manajemen Antrian Pasien', notif: 24, color: '#EC4899' },
+export default function Dashboard({ username, onLogout }: DashboardProps) {
+  const role = username.toLowerCase().includes('dr')
+    ? 'Dokter'
+    : username.toLowerCase().includes('nurse')
+    ? 'Perawat'
+    : 'Administrator';
+  
+  const nip = '0000.00000';
+
+  const applications: Application[] = [
+    {
+      id: '1',
+      name: 'Application Control-Client',
+      description: 'Aplikasi control-client untuk merevisi integrasi sistem untuk operasi akses sistem.',
+      icon: ShieldCheck,
+      status: 'Siapro',
+      access: 'Akses: Control-Client',
+      owner: 'Akses: Davin & Testing',
+      url: '#app-control',
+      gradient: 'from-blue-500 to-blue-600',
+      notifications: 5
+    },
+    {
+      id: '2',
+      name: 'Incident Reporting System',
+      description: 'Sistem pelaporan dan konfirmasi penyelesaian insiden laporan.',
+      icon: CircleAlert,
+      status: 'Beta',
+      access: 'Akses: Medical',
+      owner: 'Akses: Reputational-Patient',
+      url: '#incident',
+      gradient: 'from-orange-500 to-orange-600',
+      notifications: 12
+    },
+    {
+      id: '3',
+      name: 'Pharmacy Management System',
+      description: 'Sistem manajemen apotek dan pengelolaan obat serta inventory farmasi.',
+      icon: Pill,
+      status: 'Ready',
+      access: 'Akses: Medicine-Management',
+      owner: 'Akses: Farmasi & Obat',
+      url: '#pharmacy',
+      gradient: 'from-emerald-500 to-emerald-600',
+      notifications: 8
+    },
+    {
+      id: '4',
+      name: 'SIMGIZI - Sistem Informasi Manajemen',
+      description: 'Aplikasi manajemen indikasi utilitas terpakai untuk diet dan asupan nutrisi pasien rawat inap.',
+      icon: Utensils,
+      status: 'Ready',
+      access: 'Akses: Nutrition',
+      owner: 'Akses: Heallo-Management-IG',
+      url: '#simgizi',
+      gradient: 'from-teal-500 to-teal-600',
+      notifications: 3
+    },
+    {
+      id: '5',
+      name: 'Tamasudeva - Eticom Management Unit',
+      description: 'Aplikasi tamasudeva untuk control layanan unit berdasarkan eticom unit.',
+      icon: Hospital,
+      status: 'Beta',
+      access: 'Akses: #unitx',
+      owner: 'Akses: Management-Unit',
+      url: '#tamasudeva',
+      gradient: 'from-purple-500 to-purple-600',
+      notifications: 0
+    },
+    {
+      id: '6',
+      name: 'Laboratorium Klinik',
+      description: 'Sistem Informasi Laboratorium untuk pengelolaan hasil tes dan pemeriksaan.',
+      icon: TestTube,
+      status: 'Ready',
+      access: 'Akses: Laboratory',
+      owner: 'Akses: Lab-Testing',
+      url: '#lab',
+      gradient: 'from-indigo-500 to-indigo-600',
+      notifications: 24
+    },
+    {
+      id: '7',
+      name: 'Rekam Medis Elektronik',
+      description: 'Electronic Medical Record System untuk dokumentasi dan arsip pasien.',
+      icon: FileText,
+      status: 'Ready',
+      access: 'Akses: Medical-Records',
+      owner: 'Akses: EMR-System',
+      url: '#rekam-medis',
+      gradient: 'from-cyan-500 to-cyan-600',
+      notifications: 7
+    },
+    {
+      id: '8',
+      name: 'Sistem Antrian Pasien',
+      description: 'Manajemen antrian dan registrasi pasien untuk poliklinik dan layanan.',
+      icon: Users,
+      status: 'Ready',
+      access: 'Akses: Queue-Management',
+      owner: 'Akses: Patient-Services',
+      url: '#antrian',
+      gradient: 'from-pink-500 to-pink-600',
+      notifications: 15
+    }
   ];
 
-  const total = apps.reduce((sum, app) => sum + app.notif, 0);
+  const totalNotifications = applications.reduce((sum, app) => sum + app.notifications, 0);
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Siapro':
+        return 'bg-amber-500/90 text-white';
+      case 'Beta':
+        return 'bg-orange-500/90 text-white';
+      case 'Ready':
+        return 'bg-emerald-500/90 text-white';
+      default:
+        return 'bg-gray-500/90 text-white';
+    }
+  };
+
+  const handleAppClick = (app: Application) => {
+    alert(`Membuka aplikasi ${app.name}...`);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 relative overflow-hidden pb-20">
+      {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-[10%] w-96 h-96 bg-gradient-to-br from-emerald-100/30 to-teal-100/30 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
-        <div className="absolute bottom-20 left-[5%] w-80 h-80 bg-gradient-to-br from-cyan-100/30 to-emerald-100/30 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-[20%] w-64 h-64 bg-gradient-to-br from-teal-100/20 to-cyan-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '7s', animationDelay: '2s' }} />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-300/20 to-cyan-300/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '15s' }} />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-teal-300/20 to-emerald-300/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '15s', animationDelay: '3s' }} />
       </div>
 
-      <header className="relative bg-gradient-to-r from-white via-slate-50 to-white shadow-lg border-b border-slate-200 overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden opacity-30">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 animate-pulse" style={{ animationDuration: '4s' }} />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-br from-cyan-100 to-emerald-100 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-        </div>
-
-        <div className="container mx-auto px-4 md:px-6 py-4 relative z-10">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl blur-md opacity-50 group-hover:opacity-75 transition-opacity duration-300" />
-                <div className="relative flex items-center justify-center w-14 h-14 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl shadow-xl transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                  <Hospital className="w-7 h-7 text-white" style={{ animation: 'floatSmall 2s ease-in-out infinite' }} />
-                </div>
-                <div className="absolute inset-0 rounded-2xl border-2 border-emerald-400 animate-ping opacity-75" style={{ animationDuration: '2s' }} />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">RS Citra Husada</h2>
-                <div className="flex items-center gap-2">
-                  <Activity className="w-3 h-3 text-emerald-500 animate-pulse" />
-                  <p className="text-slate-600 text-sm font-medium">Sistem Informasi Terpadu</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-3 bg-white/80 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-lg border border-slate-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl blur-sm opacity-50 group-hover:opacity-75 transition-opacity duration-300" />
-                  <div className="relative flex items-center justify-center w-11 h-11 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl shadow-md">
-                    <User className="w-6 h-6 text-white" />
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-slate-800 font-semibold text-sm">{username}</p>
-                  <div className="flex items-center gap-1.5 justify-end">
-                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                    <p className="text-slate-500 text-xs font-medium">{role}</p>
-                  </div>
-                </div>
-              </div>
-
-              <button onClick={onLogout} className="relative group flex items-center gap-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white px-5 py-3 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:scale-105 active:scale-95">
-                <LogOut className="w-4 h-4 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
-                <span className="hidden sm:inline relative z-10 font-semibold">Logout</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              </button>
-            </div>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative z-10">
+        {/* Logo and Title - Full Width */}
+        <div className="flex items-center gap-3 mb-8" style={{ animation: 'fadeIn 0.8s ease-out forwards' }}>
+          <div className="bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 p-2.5 rounded-xl shadow-lg relative">
+            <Hospital className="w-7 h-7 text-white" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-xl blur-lg opacity-50 -z-10"></div>
           </div>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 md:px-6 py-8 relative z-10">
-        <div className="mb-10" style={{ animation: 'fadeIn 0.8s ease-out forwards' }}>
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-6">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="w-6 h-6 text-emerald-500 animate-pulse" />
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Selamat Datang, {username}</h1>
-              </div>
-              <p className="text-slate-600 text-lg">Pilih aplikasi yang ingin Anda akses</p>
-            </div>
-            
-            <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl">
-                  <TrendingUp className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-slate-800">{total}</p>
-                  <p className="text-xs text-slate-500 font-medium">Total Notifikasi</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="h-1 flex-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-transparent rounded-full" />
-            <div className="flex gap-1">
-              {[0, 0.3, 0.6].map((delay, i) => (
-                <div key={i} className="w-2 h-2 bg-emerald-400 rounded-full animate-ping" style={{ animationDelay: `${delay}s` }} />
-              ))}
-            </div>
+          <div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-700 via-cyan-600 to-teal-600 bg-clip-text text-transparent">
+              UNIFIED ACCESS
+            </h1>
+            <p className="text-sm text-gray-600">
+              Portal akses terpadu Rumah Sakit Citra Husada Jember
+            </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {apps.map((app, idx) => {
-            const Icon = app.icon;
-            return (
-              <div key={app.name} style={{ opacity: 0, animation: `slideUp 0.6s ease-out ${0.1 * idx}s forwards` }}>
-                <button onClick={() => alert(`Membuka ${app.name}...`)} className="group relative w-full h-full bg-white/80 backdrop-blur-sm border-2 border-slate-200 rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-2 overflow-hidden text-left min-h-[200px] flex flex-col">
-                  <div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-                    style={{ background: `linear-gradient(135deg, ${app.color}, transparent)` }}
-                  />
-                  
-                  <div 
-                    className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                    style={{ border: `2px solid ${app.color}` }}
-                  />
+        {/* Welcome Text */}
+        <div className="mb-8" style={{ animation: 'fadeIn 0.8s ease-out 0.2s forwards', opacity: 0 }}>
+          <p className="text-gray-600 text-sm md:text-base mb-2">SELAMAT DATANG, {username.toUpperCase()}</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            Satu pintu untuk semua <span className="bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">aplikasi layanan.</span>
+          </h2>
+          <p className="text-gray-600 text-base md:text-lg">
+            Masuk sekali, lalu akses seluruh aplikasi operasional rumah sakit dengan aman: mutu, insiden, dokumen, hingga analitik manajemen.
+          </p>
+        </div>
 
-                  <div className="relative mb-5">
-                    <div 
-                      className="absolute inset-0 blur-2xl opacity-0 group-hover:opacity-60 transition-all duration-500 rounded-2xl"
-                      style={{ backgroundColor: app.color }}
-                    />
-                    <div 
-                      className="relative w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300"
-                      style={{ background: `linear-gradient(135deg, ${app.color}, ${app.color}dd)` }}
+        <div className="grid lg:grid-cols-4 gap-6">
+          {/* Left Column - Applications Grid */}
+          <div className="lg:col-span-3 order-2 lg:order-1">
+            {/* Applications Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5">
+              {applications.map((app, index) => {
+                const Icon = app.icon;
+                return (
+                  <div
+                    key={app.id}
+                    style={{ opacity: 0, animation: `slideUp 0.6s ease-out ${0.1 * index}s forwards` }}
+                  >
+                    <button
+                      onClick={() => handleAppClick(app)}
+                      className="relative cursor-pointer group w-full text-left h-full"
                     >
-                      <Icon className="w-8 h-8 text-white" />
-                    </div>
-                  </div>
+                      <div className="bg-white/70 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-lg hover:shadow-2xl border border-blue-100/50 transition-all duration-300 h-full relative overflow-hidden hover:scale-105 active:scale-95">
+                        {/* Gradient overlay on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
 
-                  <div className="relative flex-1 flex flex-col">
-                    <h3 className="text-slate-800 font-bold text-xl mb-2 group-hover:bg-gradient-to-r group-hover:from-emerald-600 group-hover:to-teal-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
-                      {app.name}
-                    </h3>
-                    <p className="text-slate-500 text-sm leading-relaxed flex-1">
-                      {app.desc}
-                    </p>
+                        {/* Notification Badge */}
+                        {app.notifications > 0 && (
+                          <div className="absolute top-3 right-3 z-20">
+                            <div className="bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-bold rounded-full w-7 h-7 flex items-center justify-center shadow-lg">
+                              {app.notifications > 99 ? '99+' : app.notifications}
+                            </div>
+                          </div>
+                        )}
 
-                    <div className="flex items-center gap-2 mt-4 text-slate-400 group-hover:text-emerald-500 transition-colors duration-300">
-                      <span className="text-xs font-medium">Buka Aplikasi</span>
-                      <svg className="w-4 h-4 transform translate-x-0 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
+                        {/* Icon */}
+                        <div className={`inline-flex p-3.5 rounded-xl bg-gradient-to-br ${app.gradient} text-white shadow-lg mb-4 relative z-10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
+                          <Icon className="w-8 h-8" />
+                          <div className={`absolute inset-0 bg-gradient-to-br ${app.gradient} rounded-xl blur-md opacity-50 -z-10`}></div>
+                        </div>
 
-                  {app.notif > 0 && (
-                    <div className="absolute top-4 right-4" style={{ animation: `scaleIn 0.4s ease-out ${0.1 * idx + 0.3}s forwards`, opacity: 0 }}>
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-rose-500 rounded-full animate-ping opacity-75" />
-                        <div className="relative bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-bold rounded-full w-8 h-8 flex items-center justify-center shadow-lg ring-2 ring-white">
-                          {app.notif > 99 ? '99+' : app.notif}
+                        {/* Content */}
+                        <div className="mb-4 relative z-10">
+                          <h3 className="text-lg font-bold text-gray-900 mb-2 leading-snug group-hover:text-blue-600 transition-colors">
+                            {app.name}
+                          </h3>
+                          <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+                            {app.description}
+                          </p>
+                          
+                          {/* Access Info */}
+                          <div className="space-y-1.5">
+                            {app.access && (
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs border border-blue-200 text-blue-700 bg-blue-50/80 backdrop-blur-sm px-2 py-1 rounded">
+                                  {app.access}
+                                </span>
+                              </div>
+                            )}
+                            {app.owner && (
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs border border-cyan-200 text-cyan-700 bg-cyan-50/80 backdrop-blur-sm px-2 py-1 rounded">
+                                  {app.owner}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Hover indicator */}
+                        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                </button>
+          {/* Right Column - User Info Card */}
+          <div className="lg:col-span-1 order-1 lg:order-2">
+            <div className="lg:sticky lg:top-6" style={{ animation: 'slideUp 0.6s ease-out forwards' }}>
+              <div className="bg-white/70 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-blue-100/50">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-gray-900">Info Akun</h3>
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                  <User className="w-6 h-6 text-white" />
+                </div>
               </div>
-            );
-          })}
+
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-2">Username</label>
+                  <div className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 font-medium">
+                    {username}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm text-gray-600 mb-2">NIP</label>
+                  <div className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900">
+                    {nip}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm text-gray-600 mb-2">Role</label>
+                  <div className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 flex items-center justify-between">
+                    <span>{role}</span>
+                    <span className="bg-emerald-500 text-white text-xs px-2.5 py-1 rounded-full font-medium">Active</span>
+                  </div>
+                </div>
+              </div>
+
+              <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 mb-3 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+                <Settings className="w-5 h-5" />
+                Admin Panel
+              </button>
+
+              <button 
+                onClick={onLogout}
+                className="w-full bg-white border-2 border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 font-medium py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105 active:scale-95"
+              >
+                <LogOut className="w-5 h-5" />
+                Keluar
+              </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-16 text-center" style={{ animation: 'fadeIn 0.8s ease-out 0.8s forwards', opacity: 0 }}>
-          <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm border border-slate-200 rounded-full px-6 py-3 shadow-lg">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-            <p className="text-slate-600 text-sm font-medium">© 2024 RS Citra Husada - Sistem Informasi Terpadu</p>
-          </div>
-          
-          <div className="flex items-center justify-center gap-2 mt-4">
-            {[0, 0.2, 0.4, 0.6].map((delay, i) => (
-              <div key={i} className="w-1.5 h-1.5 bg-emerald-300 rounded-full animate-bounce" style={{ animationDelay: `${delay}s` }} />
-            ))}
-          </div>
+        {/* Footer Info */}
+        <div className="mt-12 text-center" style={{ animation: 'fadeIn 0.8s ease-out 1.5s forwards', opacity: 0 }}>
+          <p className="text-sm text-gray-500">
+            Klik pada aplikasi untuk mengakses sistem • Login sekali untuk semua akses
+          </p>
         </div>
       </main>
 
       <style>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes floatSmall { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-3px); } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
       `}</style>
     </div>
   );

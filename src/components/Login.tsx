@@ -18,62 +18,62 @@ export default function Login({ onLogin }: LoginProps) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4 md:p-6 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4 md:p-6 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Animated gradient mesh background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50" />
         
         {/* Floating medical icons with different animations */}
-        <div className="absolute top-20 left-[10%] text-emerald-300/40 animate-float-slow">
+        <div className="absolute top-20 left-[10%] text-blue-300/40 animate-float-slow">
           <Heart className="w-16 h-16" />
         </div>
-        <div className="absolute top-40 right-[15%] text-teal-300/40 animate-float-medium">
+        <div className="absolute top-40 right-[15%] text-cyan-300/40 animate-float-medium">
           <Activity className="w-20 h-20" />
         </div>
-        <div className="absolute bottom-32 left-[20%] text-cyan-300/40 animate-float-fast">
+        <div className="absolute bottom-32 left-[20%] text-teal-300/40 animate-float-fast">
           <Stethoscope className="w-14 h-14" />
         </div>
-        <div className="absolute bottom-20 right-[10%] text-emerald-300/40 animate-float-slow" style={{ animationDelay: '1s' }}>
+        <div className="absolute bottom-20 right-[10%] text-blue-300/40 animate-float-slow" style={{ animationDelay: '1s' }}>
           <Hospital className="w-12 h-12" />
         </div>
-        <div className="absolute top-[60%] left-[5%] text-teal-200/30 animate-float-medium" style={{ animationDelay: '2s' }}>
+        <div className="absolute top-[60%] left-[5%] text-cyan-200/30 animate-float-medium" style={{ animationDelay: '2s' }}>
           <Heart className="w-10 h-10" />
         </div>
-        <div className="absolute top-[30%] right-[5%] text-cyan-200/30 animate-float-fast" style={{ animationDelay: '1.5s' }}>
+        <div className="absolute top-[30%] right-[5%] text-teal-200/30 animate-float-fast" style={{ animationDelay: '1.5s' }}>
           <Activity className="w-12 h-12" />
         </div>
 
         {/* Animated gradient orbs with movement */}
-        <div className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-emerald-300/30 to-teal-300/30 rounded-full blur-3xl animate-blob" />
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-gradient-to-br from-cyan-300/30 to-emerald-300/30 rounded-full blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-teal-200/20 to-emerald-200/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: '4s' }} />
+        <div className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-300/30 to-cyan-300/30 rounded-full blur-3xl animate-blob" />
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-gradient-to-br from-cyan-300/30 to-teal-300/30 rounded-full blur-3xl animate-blob" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-cyan-200/20 to-blue-200/20 rounded-full blur-3xl animate-blob" style={{ animationDelay: '4s' }} />
         
         {/* Floating particles */}
-        <div className="absolute top-[15%] left-[25%] w-3 h-3 bg-emerald-400/50 rounded-full animate-float-particle" />
-        <div className="absolute top-[45%] left-[15%] w-2 h-2 bg-teal-400/50 rounded-full animate-float-particle" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-[70%] right-[20%] w-4 h-4 bg-cyan-400/50 rounded-full animate-float-particle" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-[25%] right-[30%] w-2 h-2 bg-emerald-400/50 rounded-full animate-float-particle" style={{ animationDelay: '3s' }} />
-        <div className="absolute bottom-[40%] left-[35%] w-3 h-3 bg-teal-400/50 rounded-full animate-float-particle" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-[15%] left-[25%] w-3 h-3 bg-blue-400/50 rounded-full animate-float-particle" />
+        <div className="absolute top-[45%] left-[15%] w-2 h-2 bg-cyan-400/50 rounded-full animate-float-particle" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-[70%] right-[20%] w-4 h-4 bg-teal-400/50 rounded-full animate-float-particle" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-[25%] right-[30%] w-2 h-2 bg-blue-400/50 rounded-full animate-float-particle" style={{ animationDelay: '3s' }} />
+        <div className="absolute bottom-[40%] left-[35%] w-3 h-3 bg-cyan-400/50 rounded-full animate-float-particle" style={{ animationDelay: '1.5s' }} />
         
         {/* Animated lines */}
-        <div className="absolute top-0 left-[20%] w-px h-full bg-gradient-to-b from-transparent via-emerald-200/30 to-transparent animate-slide-down" />
-        <div className="absolute top-0 left-[60%] w-px h-full bg-gradient-to-b from-transparent via-teal-200/30 to-transparent animate-slide-down" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-0 right-[25%] w-px h-full bg-gradient-to-b from-transparent via-cyan-200/30 to-transparent animate-slide-down" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-0 left-[20%] w-px h-full bg-gradient-to-b from-transparent via-blue-200/30 to-transparent animate-slide-down" />
+        <div className="absolute top-0 left-[60%] w-px h-full bg-gradient-to-b from-transparent via-cyan-200/30 to-transparent animate-slide-down" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-0 right-[25%] w-px h-full bg-gradient-to-b from-transparent via-teal-200/30 to-transparent animate-slide-down" style={{ animationDelay: '4s' }} />
       </div>
 
       {/* Login Container */}
       <div className="w-full max-w-md relative z-10">
         {/* Logo and Title */}
         <div className="text-center mb-12 animate-fadeIn">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full mb-6 shadow-2xl animate-float">
+          <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 rounded-full mb-6 shadow-2xl animate-float">
             <Hospital className="w-12 h-12 text-white" />
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-3">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-700 via-cyan-600 to-teal-600 bg-clip-text text-transparent mb-3">
             RS Citra Husada
           </h1>
           <p className="text-slate-500 text-lg">Single Sign-On Portal</p>
-          <div className="mt-4 h-1 w-20 bg-gradient-to-r from-emerald-400 to-teal-400 mx-auto rounded-full animate-pulse" />
+          <div className="mt-4 h-1 w-20 bg-gradient-to-r from-blue-400 to-cyan-400 mx-auto rounded-full animate-pulse" />
         </div>
 
         {/* Login Form */}
@@ -85,7 +85,7 @@ export default function Login({ onLogin }: LoginProps) {
             </label>
             <div className="relative">
               <div className={`absolute left-0 top-1/2 -translate-y-1/2 transition-all duration-300 ${
-                focusedInput === 'username' ? 'text-emerald-500' : 'text-slate-400'
+                focusedInput === 'username' ? 'text-blue-500' : 'text-slate-400'
               }`}>
                 <User className="w-5 h-5" />
               </div>
@@ -97,10 +97,10 @@ export default function Login({ onLogin }: LoginProps) {
                 onFocus={() => setFocusedInput('username')}
                 onBlur={() => setFocusedInput(null)}
                 placeholder="Masukkan username atau NIP"
-                className="w-full pl-10 pr-4 py-4 bg-transparent border-b-2 border-slate-200 transition-all duration-300 outline-none text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:pl-12"
+                className="w-full pl-10 pr-4 py-4 bg-transparent border-b-2 border-slate-200 transition-all duration-300 outline-none text-slate-700 placeholder:text-slate-400 focus:border-blue-500 focus:pl-12"
                 required
               />
-              <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-400 transition-all duration-300 ${
+              <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 transition-all duration-300 ${
                 focusedInput === 'username' ? 'w-full' : 'w-0'
               }`} />
             </div>
@@ -113,7 +113,7 @@ export default function Login({ onLogin }: LoginProps) {
             </label>
             <div className="relative">
               <div className={`absolute left-0 top-1/2 -translate-y-1/2 transition-all duration-300 ${
-                focusedInput === 'password' ? 'text-emerald-500' : 'text-slate-400'
+                focusedInput === 'password' ? 'text-blue-500' : 'text-slate-400'
               }`}>
                 <Lock className="w-5 h-5" />
               </div>
@@ -125,10 +125,10 @@ export default function Login({ onLogin }: LoginProps) {
                 onFocus={() => setFocusedInput('password')}
                 onBlur={() => setFocusedInput(null)}
                 placeholder="Masukkan password"
-                className="w-full pl-10 pr-4 py-4 bg-transparent border-b-2 border-slate-200 transition-all duration-300 outline-none text-slate-700 placeholder:text-slate-400 focus:border-emerald-500 focus:pl-12"
+                className="w-full pl-10 pr-4 py-4 bg-transparent border-b-2 border-slate-200 transition-all duration-300 outline-none text-slate-700 placeholder:text-slate-400 focus:border-blue-500 focus:pl-12"
                 required
               />
-              <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-400 transition-all duration-300 ${
+              <div className={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 transition-all duration-300 ${
                 focusedInput === 'password' ? 'w-full' : 'w-0'
               }`} />
             </div>
@@ -137,10 +137,10 @@ export default function Login({ onLogin }: LoginProps) {
           {/* Login Button */}
           <button
             onClick={handleSubmit}
-            className="w-full relative group overflow-hidden bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-4 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 mt-8 hover:scale-105 active:scale-95"
+            className="w-full relative group overflow-hidden bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-4 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 mt-8 hover:scale-105 active:scale-95"
           >
             <span className="relative z-10 font-semibold text-lg">Login</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </button>
         </div>
 
@@ -150,9 +150,9 @@ export default function Login({ onLogin }: LoginProps) {
             Sistem Informasi Terpadu RS Citra Husada
           </p>
           <div className="mt-4 flex items-center justify-center gap-2">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-ping" />
-            <div className="w-2 h-2 bg-teal-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }} />
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-ping" style={{ animationDelay: '1s' }} />
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-ping" />
+            <div className="w-2 h-2 bg-cyan-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }} />
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-ping" style={{ animationDelay: '1s' }} />
           </div>
         </div>
       </div>
