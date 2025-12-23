@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   LogOut, 
   Hospital, 
@@ -10,7 +10,9 @@ import {
   CircleAlert,
   Utensils,
   Settings,
-  User
+  User,
+  Info,
+  X
 } from 'lucide-react';
 
 interface DashboardProps {
@@ -32,6 +34,8 @@ interface Application {
 }
 
 export default function Dashboard({ username, onLogout }: DashboardProps) {
+  const [showInfoModal, setShowInfoModal] = useState(false);
+
   const role = username.toLowerCase().includes('dr')
     ? 'Dokter'
     : username.toLowerCase().includes('nurse')
@@ -139,20 +143,12 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
     }
   ];
 
-  const totalNotifications = applications.reduce((sum, app) => sum + app.notifications, 0);
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Siapro':
-        return 'bg-amber-500/90 text-white';
-      case 'Beta':
-        return 'bg-orange-500/90 text-white';
-      case 'Ready':
-        return 'bg-emerald-500/90 text-white';
-      default:
-        return 'bg-gray-500/90 text-white';
-    }
-  };
+  const assignedRoles = [
+    { app: 'Aplikasi Contoh Client', role: 'Administrator' },
+    { app: 'Tamasudeva - Sistem Manajemen Unit', role: 'Administrator Tamasudeva' },
+    { app: 'Incident Reporting System', role: 'Administrator Incident Report' },
+    { app: 'Pharmacy Management System', role: 'Administrator Pharmacy' }
+  ];
 
   const handleAppClick = (app: Application) => {
     alert(`Membuka aplikasi ${app.name}...`);
@@ -165,6 +161,130 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-300/20 to-cyan-300/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '15s' }} />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-teal-300/20 to-emerald-300/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '15s', animationDelay: '3s' }} />
       </div>
+
+      {/* Info Modal */}
+      {showInfoModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowInfoModal(false)}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {/* Modal Header */}
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-2xl">
+              <h2 className="text-2xl font-bold text-gray-900">View Admin Aplikasi</h2>
+              <button 
+                onClick={() => setShowInfoModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 space-y-6">
+              {/* Profile Identity */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Profile Identity</h3>
+                <p className="text-sm text-gray-500 mb-4">
+                  Identitas profil akses yang digunakan untuk mengelompokkan hak akses lintas aplikasi.
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Profile Name</label>
+                    <input 
+                      type="text" 
+                      value="Admin Aplikasi"
+                      readOnly
+                      className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Profile Slug</label>
+                    <div className="relative">
+                      <input 
+                        type="text" 
+                        value="admin_app"
+                        readOnly
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900"
+                      />
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Dipakai internal oleh sistem IAM. Hanya huruf kecil, angka, dash, dan underscore.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4 mt-4">
+                  <div className="flex items-start gap-3">
+                    <input type="checkbox" className="mt-1" disabled />
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">System Profile</p>
+                      <p className="text-xs text-gray-500">
+                        Jika aktif, profil ini dianggap kritikal dan biasanya tidak dihapus / diubah oleh user biasa.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <input type="checkbox" className="mt-1" defaultChecked />
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">Active</p>
+                      <p className="text-xs text-gray-500">
+                        Nonaktifkan untuk menghentikan pemakaian profil tanpa menghapus mapping user & role.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Roles & Permissions */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Roles & Permissions</h3>
+                <p className="text-sm text-gray-500 mb-4">
+                  Mapping profile ini ke role-role aplikasi. Satu profile bisa punya banyak role lintas aplikasi.
+                </p>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Assigned Roles (Application — Role)
+                  </label>
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 space-y-2">
+                    {assignedRoles.map((item, idx) => (
+                      <div key={idx} className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-md text-sm mr-2 mb-2">
+                        <span>{item.app} — {item.role}</span>
+                        <button className="text-blue-500 hover:text-blue-700">×</button>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Pilih kombinasi aplikasi + role yang akan dibungkus oleh profile ini.
+                  </p>
+                </div>
+              </div>
+
+              {/* Metadata & Description */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Metadata & Description</h3>
+                <p className="text-sm text-gray-500 mb-4">
+                  Dokumentasi singkat mengenai tujuan, ruang lingkup, dan siapa yang menggunakan profile ini.
+                </p>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                  <textarea 
+                    rows={3}
+                    value="Profil akses admin untuk aplikasi lainnya."
+                    readOnly
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 resize-none"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative z-10">
@@ -278,49 +398,58 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
           <div className="lg:col-span-1 order-1 lg:order-2">
             <div className="lg:sticky lg:top-6" style={{ animation: 'slideUp 0.6s ease-out forwards' }}>
               <div className="bg-white/70 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-blue-100/50">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-gray-900">Info Akun</h3>
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <User className="w-6 h-6 text-white" />
-                </div>
-              </div>
-
-              <div className="space-y-4 mb-6">
-                <div>
-                  <label className="block text-sm text-gray-600 mb-2">Username</label>
-                  <div className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 font-medium">
-                    {username}
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900">Info Akun</h3>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setShowInfoModal(true)}
+                      className="w-10 h-10 bg-gradient-to-br from-blue-100 to-cyan-100 hover:from-blue-200 hover:to-cyan-200 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+                      title="Lihat Detail Profil"
+                    >
+                      <Info className="w-5 h-5 text-blue-600" />
+                    </button>
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                      <User className="w-6 h-6 text-white" />
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm text-gray-600 mb-2">NIP</label>
-                  <div className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900">
-                    {nip}
+                <div className="space-y-4 mb-6">
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-2">Username</label>
+                    <div className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 font-medium">
+                      {username}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-2">NIP</label>
+                    <div className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900">
+                      {nip}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-2">Role</label>
+                    <div className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 flex items-center justify-between">
+                      <span>{role}</span>
+                      <span className="bg-emerald-500 text-white text-xs px-2.5 py-1 rounded-full font-medium">Active</span>
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm text-gray-600 mb-2">Role</label>
-                  <div className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 flex items-center justify-between">
-                    <span>{role}</span>
-                    <span className="bg-emerald-500 text-white text-xs px-2.5 py-1 rounded-full font-medium">Active</span>
-                  </div>
-                </div>
-              </div>
+                <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 mb-3 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+                  <Settings className="w-5 h-5" />
+                  Admin Panel
+                </button>
 
-              <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 mb-3 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
-                <Settings className="w-5 h-5" />
-                Admin Panel
-              </button>
-
-              <button 
-                onClick={onLogout}
-                className="w-full bg-white border-2 border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 font-medium py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105 active:scale-95"
-              >
-                <LogOut className="w-5 h-5" />
-                Keluar
-              </button>
+                <button 
+                  onClick={onLogout}
+                  className="w-full bg-white border-2 border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 font-medium py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:scale-105 active:scale-95"
+                >
+                  <LogOut className="w-5 h-5" />
+                  Keluar
+                </button>
               </div>
             </div>
           </div>
