@@ -28,7 +28,6 @@ interface Application {
   url: string;
   gradient: string;
   access?: string;
-  owner?: string;
   notifications: number;
 }
 
@@ -51,7 +50,6 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
       icon: ShieldCheck,
       status: 'Siapro',
       access: 'Akses: Control-Client',
-      owner: 'Akses: Davin & Testing',
       url: '#app-control',
       gradient: 'from-blue-500 to-blue-600',
       notifications: 5
@@ -63,7 +61,6 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
       icon: CircleAlert,
       status: 'Beta',
       access: 'Akses: Medical',
-      owner: 'Akses: Reputational-Patient',
       url: '#incident',
       gradient: 'from-orange-500 to-orange-600',
       notifications: 12
@@ -75,7 +72,6 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
       icon: Pill,
       status: 'Ready',
       access: 'Akses: Medicine-Management',
-      owner: 'Akses: Farmasi & Obat',
       url: '#pharmacy',
       gradient: 'from-emerald-500 to-emerald-600',
       notifications: 8
@@ -87,7 +83,6 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
       icon: Utensils,
       status: 'Ready',
       access: 'Akses: Nutrition',
-      owner: 'Akses: Heallo-Management-IG',
       url: '#simgizi',
       gradient: 'from-teal-500 to-teal-600',
       notifications: 3
@@ -99,7 +94,6 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
       icon: Hospital,
       status: 'Beta',
       access: 'Akses: #unitx',
-      owner: 'Akses: Management-Unit',
       url: '#tamasudeva',
       gradient: 'from-purple-500 to-purple-600',
       notifications: 0
@@ -111,7 +105,6 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
       icon: TestTube,
       status: 'Ready',
       access: 'Akses: Laboratory',
-      owner: 'Akses: Lab-Testing',
       url: '#lab',
       gradient: 'from-indigo-500 to-indigo-600',
       notifications: 24
@@ -123,7 +116,6 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
       icon: FileText,
       status: 'Ready',
       access: 'Akses: Medical-Records',
-      owner: 'Akses: EMR-System',
       url: '#rekam-medis',
       gradient: 'from-cyan-500 to-cyan-600',
       notifications: 7
@@ -135,7 +127,6 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
       icon: Users,
       status: 'Ready',
       access: 'Akses: Queue-Management',
-      owner: 'Akses: Patient-Services',
       url: '#antrian',
       gradient: 'from-pink-500 to-pink-600',
       notifications: 15
@@ -344,7 +335,7 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
           {/* Applications Grid - Full Width */}
           <div className="w-full">
             {/* Applications Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
               {applications.map((app, index) => {
                 const Icon = app.icon;
                 return (
@@ -390,13 +381,6 @@ export default function Dashboard({ username, onLogout }: DashboardProps) {
                               <div className="flex items-center gap-2">
                                 <span className="text-xs border border-blue-200 text-blue-700 bg-blue-50/80 backdrop-blur-sm px-2 py-1 rounded">
                                   {app.access}
-                                </span>
-                              </div>
-                            )}
-                            {app.owner && (
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs border border-cyan-200 text-cyan-700 bg-cyan-50/80 backdrop-blur-sm px-2 py-1 rounded">
-                                  {app.owner}
                                 </span>
                               </div>
                             )}
